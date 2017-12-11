@@ -1,0 +1,26 @@
+#!/bin/bash
+
+set -e
+set -u
+
+apt -y install inotify-tools at
+
+inotifywait -e close_write,moved_to,create -m /etc/dnsmasq.d/ |
+while read -r directory events filename; do
+
+        nh="$(date +"%H")"
+        nm="$(date +"%-M")"
+        fm=$(( $nm + 2 ))
+        if [ $fm -lt 10 ]
+        then
+                fm=0$fm
+        fi
+        nt="$nh:$nm"
+        ft="$nh:$fm"
+
+        if ! $(atq | grep -q $ft)
+        then
+                echo "/etc/init.d/dnsmasq restart" | at $ft
+        fi
+
+done
