@@ -23,5 +23,5 @@ mv dnsmasq-restarter/script scripts/dnsmasq-restarter
 
 Add this to your crontab [```crontab -e``` and copy paste]
 ```
-@reboot scripts/dnsmasq-restarter/script.sh
+@reboot bash scripts/dnsmasq-restarter
 ````
